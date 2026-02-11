@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caesar Cipher</title>
+    <style>
+        body {
+            font-family: Arial;
+            width: 500px;
+            margin: 50px auto;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        textarea {
+            height: 80px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Caesar Cipher</h2>
+
+<form>
+    <label>Choose Mode:</label>
+    <select id="mode">
+        <option value="encrypt">Encrypt</option>
+        <option value="decrypt">Decrypt</option>
+    </select>
+
+    <label>Text:</label>
+    <input type="text" id="text" placeholder="Enter text here">
+
+    <label>Shift:</label>
+    <input type="number" id="shift" placeholder="Enter shift number">
+
+    <label>Result:</label>
+    <textarea id="result" readonly></textarea>
+
+    <button type="button" onclick="processCipher()">Submit</button>
+</form>
+
+<script>
+function processCipher() {
+    let mode = document.getElementById("mode").value;
+    let text = document.getElementById("text").value;
+    let shift = parseInt(document.getElementById("shift").value);
+    let result = "";
+
+    if (mode === "decrypt") {
+        shift = -shift;
+    }
+
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+
+        if (char.match(/[a-z]/i)) {
+            let code = text.charCodeAt(i);
+
+            let base = (code >= 65 && code <= 90) ? 65 : 97;
+
+            result += String.fromCharCode((code - base + shift + 26) % 26 + base);
+        } else {
+            result += char;
+        }
+    }
+
+    document.getElementById("result").value = result;
+}
+</script>
+
+</body>
+</html>
